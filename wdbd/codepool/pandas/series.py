@@ -32,6 +32,7 @@ def demo_construct_by_list():
     # 2    b
     # 3    c
     # dtype: object
+    print('执行完毕！')
 
 
 def demo_construct_by_dict():
@@ -47,6 +48,7 @@ def demo_construct_by_dict():
     # name    Jack
     # age        2
     # dtype: object
+    print('执行完毕！')
 
 
 def demo_construct():
@@ -86,6 +88,7 @@ def demo_construct():
     print('第2个元素=', sr[1])  # 1.0
     print('按index顺序选第2个元素=', sr.iloc[1:2])    # 1.0
     print('按index值选第2、5个元素=\n', sr.loc[['b', 'e']])    # 返回Series对象
+    print('执行完毕！')
 
 
 if __name__ == "__main__":

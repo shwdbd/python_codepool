@@ -13,8 +13,8 @@
 | array_select.py            | 索引与切片                          |
 |                            | reshape                             |
 |                            | 数据类型变更 astype                 |
-| ndarray_construct.py       | ndarray的构建                       |
-|                            |                                     |
+| ndarray_construct.py1      | ndarray的构建                       |
+| random.py                  | 随机函数                                    |
 |                            |                                     |
 |                            |                                     |
 |                            |                                     |
