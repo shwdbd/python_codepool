@@ -54,7 +54,7 @@ def demo_construct_by_dict():
     """
     dict_data = {
         "id": ['600001', '600002', '600003'],
-        "open": [12.9, 7.3, 6.2],   # FIXME 此处要改成随机函数
+        "open": np.random.randn(3),
     }
     df = pd.DataFrame(data=dict_data)
     df.index = df.id
@@ -99,7 +99,7 @@ def demo_add_del_col():
     """
     dict_data = {
         "id": ['600001', '600002', '600003'],
-        "open": [12.9, 7.3, 6.2],   # FIXME 此处要改成随机函数
+        "open": np.random.randn(3),
     }
     df = pd.DataFrame(dict_data)
     print(df)
@@ -123,4 +123,4 @@ def demo_add_del_col():
 
 
 if __name__ == "__main__":
-    demo_construct_by_nprandom()
+    demo_add_del_col()
