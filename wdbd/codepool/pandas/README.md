@@ -8,7 +8,7 @@
 | -------------------- | -------------------------------- |
 | series.py            | Series的构建与基本属性 ok         |
 | df_basic.py          | DF的构建与基本属性 ok              |
-| df_selection.py      | DF的条件选择                     |
+| df_selection.py      | DF的条件选择  ok                     |
 | df_v_op.py           | DF的向量运算（不同形状的df加减） |
 | df_col_raname.py     | df列改名                         |
 | df_null.py           | 空值的处理                       |
