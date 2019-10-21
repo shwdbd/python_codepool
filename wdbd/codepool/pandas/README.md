@@ -6,8 +6,8 @@
 
 | 源代码文件           | 说明                             |
 | -------------------- | -------------------------------- |
-| series.py            | Series的构建与基本属性           |
-| df_basic.py          | DF的构建与基本属性               |
+| series.py            | Series的构建与基本属性 ok         |
+| df_basic.py          | DF的构建与基本属性 ok              |
 | df_selection.py      | DF的条件选择                     |
 | df_v_op.py           | DF的向量运算（不同形状的df加减） |
 | df_col_raname.py     | df列改名                         |
