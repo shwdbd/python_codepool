@@ -18,8 +18,8 @@
 | df_group.py          | df的group   ok                   |
 | df_merge.py          | df的合并（concate, join, merge） |
 | df_muli_index.py     | 多重索引（multi-index）          |
-|                      | 透视表                                 |
-|                      |                                  |
+|                      | 透视表                            |
+| df_Visualization.py  | 可视化绘图                        |
 |                      |                                  |
 |                      |                                  |
 |                      |                                  |
