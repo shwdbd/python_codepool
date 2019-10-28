@@ -7,9 +7,14 @@
 @Version :   1.0
 @Contact :   shwangjj@163.com
 @Desc    :   随机函数
+
+标准差随机数
+
+
 '''
 import numpy as np
 
 
+
 if __name__ == "__main__":
-    pass
+    print(np.random.rand(3,2))
