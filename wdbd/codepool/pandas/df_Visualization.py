@@ -25,6 +25,7 @@ https://pandas.pydata.org/pandas-docs/stable/reference/frame.html#plotting
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import tushare as ts
 
 
 def simple_plot():
@@ -44,6 +45,14 @@ def simple_plot():
     fig.savefig(r'temp_files\fig.png')
 
 
+
+def demo_stock():
+    """
+    用tushare股票数据绘制图形
+    """
+    pass
+
+
 if __name__ == "__main__":
-    simple_plot()
+    demo_stock()
 
