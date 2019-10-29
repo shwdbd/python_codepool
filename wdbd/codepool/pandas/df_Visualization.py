@@ -49,8 +49,13 @@ def simple_plot():
 def demo_stock():
     """
     用tushare股票数据绘制图形
+    
+    为避免泄露userid，使用模拟的数据
     """
+    # 构建
+    # 使用 date_range构建一个index，然后用 随机函数构建数据
     pass
+    
 
 
 if __name__ == "__main__":
