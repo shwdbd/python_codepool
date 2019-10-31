@@ -27,6 +27,8 @@ labels = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 def qz_4():
     """
     用data创建一个DataFramedf，索引是labels
+
+    有单元测试
     """
     df = pd.DataFrame(data=data, index=labels)
     return df
@@ -36,95 +38,109 @@ def qz_5():
     """
     显示此DataFrame及其数据的基本信息摘要。
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df.info())
+    print(df.describe())
 
 
 def qz_6():
     """
     返回DataFrame df的前三行.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df.iloc[:3, :])   # iloc方式
+    print(df.head(3))       # head方式
 
 
 def qz_7():
     """
     从DataFramedf中选择animal和age列
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df.loc[:, ['animal', 'age']])
+    print(df[['animal', 'age']])
 
 
 def qz_8():
     """
     8. 选择行[3, 4, 8] 与 列 ['animal', 'age']中的数据.
     """
-    # TODO 待实现
-    pass
+    # df.ix 已被废弃，只能用
+    df = qz_4()
+    print(df.loc[df.index[[3, 4, 8]], ['animal', 'age']])
 
 
 def qz_9():
     """
     9. 把visits>3的行的内容筛出来.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df)
+    print(df[df['visits'] > 3])
 
 
 def qz_10():
     """
     10. 把age 缺失的行(例如age为 NaN)筛出来.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df)
+    print(df[df['age'].isnull()])
 
 
 def qz_11():
     """
     11. 把animal为cat 且 age小于3的行筛出来.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df)
+    print(df[(df['animal'] == 'cat') & (df['age'] < 3)])
 
 
 def qz_12():
     """
     12. 把age大于2, 小于等于4的行都筛出来.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df[(df['age'] <= 4) & (df['age'] >= 2)])
+    print(df[df['age'].between(2, 4)])
 
 
 def qz_13():
     """
     13. 把'f'行里的age改成1.5.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df)
+    df.loc['f', 'age'] = 1.5
+    print(df)
 
 
 def qz_14():
     """
     14. 把所有行的visits进行加总.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df['visits'].sum())
 
 
 def qz_15():
     """
     15. 计算df中每种动物的平均年龄.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df[['animal', 'age']].groupby(by=['animal']).mean())
+    print(df.groupby(by=['animal'])['age'].mean())
 
 
 def qz_16():
     """
     16. 在df中新增一行, 名为k, 每列的值你随便填. 完成后, 再把k行删除.
     """
+    df = qz_4()
+
     # TODO 待实现
+
     pass
 
 
@@ -132,32 +148,30 @@ def qz_17():
     """
     17. 计算df中每种动物的个数.
     """
-    # TODO 待实现
-    pass
-
-
-def qz_17():
-    """
-    18. 对df进行排序, 第一次使用age进行降序排序, 然后按照visits进行升序排序.
-    """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df['animal'].value_counts())
 
 
 def qz_18():
     """
     18. 对df进行排序, 第一次使用age进行降序排序, 然后按照visits进行升序排序.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    df.sort_values(by=['age', 'visits'], ascending=[False, True], inplace=True)
+    print(df)
 
 
 def qz_19():
     """
     19. 当前'priority'列包含值'yes'和'no'。 用布尔值替换此列内容：'yes'替换为'True'而'no'替换为'False'。
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    df['priority'] = df['priority'].map({'yes': 'True', 'no': 'False'})
+    print(df)
+
+
+if __name__ == "__main__":
+    qz_19()
 
 
 def qz_20():
