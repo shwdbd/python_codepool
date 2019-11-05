@@ -14,7 +14,8 @@
 '''
 import numpy as np
 
-
+# TODO 生成指定范围内float数列
+# TODO 生成指定范围内int数列
 
 if __name__ == "__main__":
     print(np.random.rand(3,2))
