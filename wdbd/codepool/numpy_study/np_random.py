@@ -17,5 +17,11 @@ import numpy as np
 # TODO 生成指定范围内float数列
 # TODO 生成指定范围内int数列
 
+def get_random_float():
+    sampl = np.random.uniform(low=0.5, high=13.3, size=(5,))
+    print(sampl)
+
+
 if __name__ == "__main__":
-    print(np.random.rand(3,2))
+    # print(np.random.rand(3,2))
+    get_random_float()
