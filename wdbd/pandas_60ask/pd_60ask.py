@@ -170,16 +170,24 @@ def qz_19():
     print(df)
 
 
-if __name__ == "__main__":
-    qz_19()
 
 
 def qz_20():
     """
     20. 在'animal'一列中, 将'snake'改为'python'.
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    # df['priority'] = df['priority'].map({'yes': 'True', 'no': 'False'})
+
+    df.where(df['animal'] == 'snake', 'python', np.nan)
+
+
+    print(df)
+
+
+if __name__ == "__main__":
+    qz_20()
+
 
 
 def qz_21():
@@ -194,8 +202,7 @@ def qz_21():
 
 
 def qz_22():
-    """
-    22. 设有一个DataFrame df, 其中列 'A'为整型. 例如:
+    """    22. 设有一个DataFrame df, 其中列 'A'为整型. 例如:
 
     df = pd.DataFrame({'A': [1, 2, 2, 3, 4, 5, 5, 5, 6, 7, 7]})
     如何筛选出与上一行包含相同整数的行？
