@@ -170,32 +170,32 @@ def qz_19():
     print(df)
 
 
-
-
 def qz_20():
     """
     20. 在'animal'一列中, 将'snake'改为'python'.
     """
     df = qz_4()
-    # df['priority'] = df['priority'].map({'yes': 'True', 'no': 'False'})
-
-    df.where(df['animal'] == 'snake', 'python', np.nan)
-
-
+    # 方法一
+    df['animal'] = df['animal'].where(df['animal'] != 'snake', 'python')
+    # 方法二
+    df['animal'] = np.where(df['animal'] == 'snake', 'python',  df['animal'])
+    # 方法三：
+    df['animal'] = df['animal'].replace(to_replace='snake', value='python')
     print(df)
-
-
-if __name__ == "__main__":
-    qz_20()
-
 
 
 def qz_21():
     """
-    21. 相同访问量(visits)的不同种类动物, 计算其age的平均值. 换言之, 每行是一种动物, 有一列是visits, 一列是平均年龄. (小提示: 使用透视表).
+    21. 相同访问量(visits)的不同种类动物, 计算其age的平均值. 
+    换言之, 每行是一种动物, 有一列是visits, 一列是平均年龄. (小提示: 使用透视表).
     """
-    # TODO 待实现
-    pass
+    df = qz_4()
+    print(df)
+    # 用透视表
+    pt = df.pivot_table(index='animal', values=['visits', 'age'], aggfunc={
+                        'visits': 'sum', 'age': 'mean'})
+    print(pt)
+
 
 # --------------------------------------------------------
 # 中等难度：
@@ -207,8 +207,8 @@ def qz_22():
     df = pd.DataFrame({'A': [1, 2, 2, 3, 4, 5, 5, 5, 6, 7, 7]})
     如何筛选出与上一行包含相同整数的行？
     """
-    # TODO 待实现
-    pass
+    df = pd.DataFrame({'A': [1, 2, 2, 3, 4, 5, 5, 5, 6, 7, 7]})
+    print(df[df['A'] == df['A'].shift(1)])
 
 
 def qz_23():
@@ -218,8 +218,11 @@ def qz_23():
     df = pd.DataFrame(np.random.random(size=(5, 3))) # 一个 5x3 浮点型的frame
     把行中每个元素都减去本行平均值？
     """
-    # TODO 待实现
-    pass
+    df = pd.DataFrame(np.random.random(size=(5, 3)))
+    print(df)
+    print(df.mean(axis='columns'))
+    df2 = df.sub(df.mean(axis='columns'), axis='index')
+    print(df2)
 
 
 def qz_24():
@@ -229,25 +232,54 @@ def qz_24():
     df = pd.DataFrame(np.random.random(size=(5, 10)), columns=list('abcdefghij'))
     哪一列数字的总和最小？ （找到该列的标签。）
     """
-    # TODO 待实现
-    pass
+    df = pd.DataFrame(np.random.random(size=(5, 3)), columns=['A', 'B', 'C'])
+    print(df)
+    df_sum = df.sum(axis='index')
+    print(df_sum)
+    print('最小的值是：%d' % (df_sum.min()))
+    print('最小的索引是: %s ' % (df_sum.idxmin()))
 
 
 def qz_25():
     """
     25. 计算DataFrame有多少个唯一行（即忽略所有重复的行）？
     """
-    # TODO 待实现
-    pass
+    data = [
+        [1, 2, 3, 4, 5],
+        [1, 2, 3, 4, 5],
+        [7, 7, 3, 7, 3],
+        [np.nan]*5,
+        [np.nan]*5,
+        [0]*5
+    ]
+    df = pd.DataFrame(data, columns=['A', 'B', 'C', 'D', 'E'])
+    print(df)
+
+    # 方法1：
+    print('唯一行数量：{0}'.format(len(df) - df.duplicated(keep=False).sum()))
+    # 方法2：
+    print('唯一行数量：{0}'.format(len(df.drop_duplicates(keep=False))))
 
 
 def qz_26():
     """
-    26. 你有一个由10列浮点数组成的DataFrame。 假设每行中恰好有5个条目是NaN值。 那么于DataFrame的每一行，找到第三个NaN值的那一列列名。
+    26. 你有一个由10列浮点数组成的DataFrame。 假设每行中恰好有5个条目是NaN值。 
+    那么于DataFrame的每一行，找到第三个NaN值的那一列列名。
     （您应该返回一串列标签。）
     """
-    # TODO 待实现
-    pass
+    data = [
+        [np.nan]*5 + [1, 2, 3] + [np.nan]*2,
+        ['1, 2'] + [np.nan]*5 + [3] + [np.nan]*2,
+        # [0]*5
+    ]
+    df = pd.DataFrame(data, columns=list('abcdefghij'))
+    print(df)
+
+    # (df.isnull().cumsum(axis=1) == 3).idxmax(axis=1)
+    print(df.isna())
+    print(df.isna().cumsum(axis='columns'))
+    print((df.isna().cumsum(axis='columns')) == 3)
+    print(((df.isna().cumsum(axis='columns')) == 3).idxmax(axis='columns'))
 
 
 def qz_27():
@@ -261,6 +293,10 @@ def qz_27():
     """
     # TODO 待实现
     pass
+
+
+if __name__ == "__main__":
+    qz_26()
 
 
 def qz_28():
