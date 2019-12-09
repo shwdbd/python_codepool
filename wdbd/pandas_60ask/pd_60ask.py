@@ -295,17 +295,28 @@ def qz_27():
     pass
 
 
-if __name__ == "__main__":
-    qz_26()
+
 
 
 def qz_28():
     """
-    28. DataFrame有两个整数列'A'和'B'。 A中的值介于1和100之间（含100）。 对于'A'中的每组10个连续整数（即(0,10)，(10,20)，...），计算列'B'中相应值的总和。
+    28. DataFrame有两个整数列'A'和'B'。 A中的值介于1和100之间（含100）。 
+    对于'A'中的每组10个连续整数（即(0,10)，(10,20)，...），计算列'B'中相应值的总和。
     """
+    # factors = np.random.randn(9)
+    factors = pd.DataFrame([1, 2, 3, 4, 5])
+    print(factors)
+    print(np.median(factors))   # 中位数
+    # print(type(pd.cut(factors[0], 3)))
+    print(pd.cut(factors[0], 3))
+    # 分布：
+    print(pd.cut(factors[0], 3).value_counts())
     # TODO 待实现
-    pass
+    # df.groupby(pd.cut(df['a'], np.arange(0, 101, 10)))['b'].sum()
 
+
+if __name__ == "__main__":
+    qz_28()
 
 # --------------------------------------------------------
 # 难：
@@ -332,7 +343,8 @@ def qz_30():
 
 def qz_31():
     """
-    31. 给定一个DataFrame，其中包含一列group ID，列名为'grps'; 以及一列相应的整数值'vals'，将'vals'中的任何负值替换为对应group的平均值。
+    31. 给定一个DataFrame，其中包含一列group ID，列名为'grps'; 
+    以及一列相应的整数值'vals'，将'vals'中的任何负值替换为对应group的平均值。
     """
     # TODO 待实现
     pass
