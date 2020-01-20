@@ -1,5 +1,7 @@
 
 # 将函数作为返回值
+
+
 def foo():
     return hi
 
@@ -16,9 +18,11 @@ def my_decorator(f):
 def hi(name='Jack'):
     print('Hi, {0}'.format(name))
 
+
 @my_decorator
 def hi2(name='Jack'):
     print('Hi, {0}'.format(name))
+
 
 if __name__ == "__main__":
     # hi()
@@ -29,4 +33,3 @@ if __name__ == "__main__":
     # print(dd())
 
     hi2('Mark')
-
