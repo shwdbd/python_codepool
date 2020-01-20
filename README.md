@@ -1,5 +1,6 @@
-# python_codepool
-用于本人python代码示例与实验代码
+# python_codepool 项目说明
+
+用于本人python代码示例与实验代码的项目
 
 ## 目录说明
 
@@ -13,9 +14,13 @@
 
 python虚拟环境存放在 venv 文件夹下，每个虚拟环境存放在单独的子文件夹中。不同的虚拟环境相互独立。
 
-
-
-### python3 
+### python3
 
 基于Anaconda3的环境，其lib继承自Anaconda3的lib
 
+## 2020年1月重大改动
+
+年初对项目结构进行重大变更，变更目的有二：
+
+1. 项目结构由vscode.workspace改为普通目录；
+2. python虚拟环境独立

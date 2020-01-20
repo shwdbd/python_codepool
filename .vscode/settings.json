@@ -1,9 +1,9 @@
 {
-    "python.pythonPath": "C:\\Python\\workspace\\python_codepool\\venv\\python3\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Python\\venv\\python_codepool\\Scripts\\python.exe",
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        ".",
+        "test\\.",
         "-p",
         "test_*.py"
     ],
