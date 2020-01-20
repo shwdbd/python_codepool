@@ -13,11 +13,11 @@
 | array_select.py            | 索引与切片                          |
 |                            | reshape                             |
 |                            | 数据类型变更 astype                 |
-| ndarray_construct.py       | ndarray的构建                       |
-|                            |                                     |
-|                            |                                     |
-|                            |                                     |
-|                            |                                     |
+| ndarray_construct.py1      | ndarray的构建                       |
+| random.py                  | 随机函数                            |
+| np_where.py                | np.where 示例                       |
+| np_sign.py                 | np.sign  示例                       |
+| np_ployfit.py              | 拟合函数                            |
 |                            |                                     |
 |                            |                                     |
 |                            |                                     |
