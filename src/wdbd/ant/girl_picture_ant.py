@@ -22,6 +22,7 @@
 1. download_list(url)       根据列表url，分析所有影集信息，并生成 girls.json 文件
 2. download_pic(json_files) 下载照片到制定目录
 
+
 '''
 import urllib.request
 from bs4 import BeautifulSoup
@@ -64,6 +65,17 @@ def down_pic(url):
 
 
 def download_img(img_url, pic_file_path):
+    """
+    下载照片到本地
+
+    Arguments:
+        img_url {str} -- 照片的url地址
+        pic_file_path {str} -- 本地存放地址
+
+    Returns:
+        [str] -- success | failed 下载成功与否
+    """
+
     # header = {"Authorization": "Bearer " + api_token} # 设置http header
     # request = urllib.request.Request(img_url, headers=header)
     request = urllib.request.Request(img_url)
@@ -74,7 +86,7 @@ def download_img(img_url, pic_file_path):
         if (response.getcode() == 200):
             with open(pic_file_path, "wb") as f:
                 f.write(response.read())    # 将内容写入图片
-        print('下载 ' + pic_file_path)
+        # print('下载 ' + pic_file_path)
         return 'success'
     except Exception as err:
         print('下载照片出错，' + str(err))
@@ -161,7 +173,7 @@ def parse_list_html(file):
     return girls_on_page
 
 
-def download_pic(json_file):
+def download_pic(json_file, down_dir=r'c:\temp\girls\\'):
     """
     读取json文件，并依次下载影集
     """
@@ -170,11 +182,9 @@ def download_pic(json_file):
         load_dict = json.load(load_f)
         # print(load_dict)
 
-    ROOT_DIR = r'c:\temp\girls\\'
-
     for girl_id in load_dict.keys():
         # print(len(load_dict[girl_id]['pics']))
-        girl_dir = ROOT_DIR + load_dict[girl_id]['name'].strip()
+        girl_dir = down_dir + load_dict[girl_id]['name'].strip()
         # 创建目录:
         if not os.path.exists(girl_dir):
             os.makedirs(girl_dir)
@@ -191,9 +201,24 @@ def download_pic(json_file):
 
 
 if __name__ == "__main__":
-    # url = 'https://www.meitulu.com/t/beautyleg/2.html'
-    # download_list(url)
 
-    json_file = r'c:\temp\girls.json'
-    download_pic(json_file)
+    # url = 'https://www.meitulu.com/t/beautyleg/'  # https://www.meitulu.com/t/beautyleg/2.html
+    # url = 'https://www.meitulu.com/t/luvian/'
 
+    # url = 'https://www.meitulu.com/t/1319/'
+    # url = 'https://www.meitulu.com/t/yiyang-elly/'
+    url = 'https://www.meitulu.com/t/beautyleg/23.html'
+    download_list(url)
+    
+    # json_file = r'c:\temp\girls.json'
+    # download_pic(json_file, r'c:\temp\girls\\beautyleg_nana\\')
+
+    # # --------------
+    # json_file = r'c:\temp\girls.json'
+    # for i in range(2, 14):
+    #     url = 'https://www.meitulu.com/t/ligui/{0}.html'.format(i)
+    #     # url = 'https://www.meitulu.com/t/beautyleg/{0}.html'.format(i)
+    #     download_list(url)
+    #     download_pic(json_file, r'c:\temp\girls\\丽柜_{0}\\'.format(i))
+
+   
