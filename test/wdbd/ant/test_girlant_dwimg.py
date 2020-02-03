@@ -6,21 +6,42 @@
 @Author  :   Jeffrey Wang
 @Version :   1.0
 @Contact :   shwangjj@163.com
-@Desc    :   单元测试，照片下载的函数
+@Desc    :   单元测试，单个照片下载的函数
 '''
 import unittest
 import src.wdbd.ant.girl_picture_ant as girl_ant
+import os
 
 
 class Test_DownloadImg(unittest.TestCase):
 
+    url = 'https://www.baidu.com/img/baidu_jgylogo3.gif'
+    target_file = r'temp_files\dw_img.gif'
+
+    def setUp(self):
+        if os.path.exists(self.target_file):
+            os.remove(self.target_file)
+        return super().setUp()
+
+    def tearDown(self):
+        if os.path.exists(self.target_file):
+            os.remove(self.target_file)
+        return super().tearDown()
+
     def test_success(self):
-        # print( sys.path )
-        # for path in sys.path:
-        #     print(path)
-        url = 'https://www.meitulu.com/t/beautyleg/23.html'
-        girl_ant.download_list(url)
+        """测试下载照片成功
+        """
+        r = girl_ant.download_img(img_url=self.url, pic_file_path=self.target_file)
+        self.assertEqual('success', r)
 
-        self.assertTrue(self)
+        # 检查下载的文件是否存在
+        self.assertTrue(os.path.exists(self.target_file))
 
+    def test_url_error(self):
+        err_url = 'xxxx.html'
+        r = girl_ant.download_img(img_url=err_url, pic_file_path=self.target_file)
+        self.assertEqual('failed', r)
 
+        # url = None
+        r = girl_ant.download_img(img_url=None, pic_file_path=self.target_file)
+        self.assertEqual('failed', r)
