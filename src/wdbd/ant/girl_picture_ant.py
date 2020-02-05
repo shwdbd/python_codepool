@@ -21,6 +21,8 @@
 1. download_img(x, y)       下载单个照片
 2. download_single_listpage     下载单个列表页面的所有影集
 3. download_multiple_listpage   下载多页的所有影集
+4. show_gui     GUI显示程序
+
 
 '''
 import urllib.request
@@ -29,6 +31,8 @@ import json
 import os
 from wdbd.ant.tl import log
 import wdbd.ant.girl_ci as CI
+import tkinter as tk
+import tkinter.messagebox as tk_msg
 
 
 class GirlPage:
@@ -270,7 +274,30 @@ def download_multiple_listpage(url, page_from=1, page_end=999, down_dir=CI.DOWN_
     return count_all
 
 
+def show_gui():
+    """
+    图形操作界面
+
+    e_single_url    单页下载URL地址
+    btn_single_dw   单页下载按钮
+    btn_single_check   单页url检查按钮
+
+    """
+    window = tk.Tk()
+    window.title('Hello World')
+    window.geometry('500x300')
+
+    # 单页下载
+    e_single_url = tk.Entry(window, font=('Arial', 10), width=50)
+    e_single_url.grid(row=1, column=1)
+
+
+    window.mainloop()
+
+
 if __name__ == "__main__":
+
+    show_gui()
 
     # url = 'https://www.meitulu.com/t/beautyleg/'  # https://www.meitulu.com/t/beautyleg/2.html
     # url = 'https://www.meitulu.com/t/luvian/'
@@ -286,7 +313,7 @@ if __name__ == "__main__":
 
     # print(len(os.listdir(r'temp_files\girl')))
 
-    url = r'https://www.meitulu.com/t/ligui/{0}.html'
-    r = download_multiple_listpage(
-        url, page_from=1, page_end=2, down_dir=r'temp_files\\girl\\'+'丽柜')
-    print(r)
+    # url = r'https://www.meitulu.com/t/ligui/{0}.html'
+    # r = download_multiple_listpage(
+    #     url, page_from=1, page_end=2, down_dir=r'temp_files\\girl\\'+'丽柜')
+    # print(r)

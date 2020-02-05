@@ -29,12 +29,21 @@ def show():
     e_name = tk.Entry(window, font=('Arial', 14))
     e_name.pack()
 
-    # 动作按钮
+    # Say Hi 动作按钮
     btn_hello = tk.Button(window, text='打招呼', font=(
         'Arial', 12), width=10, height=1, command=lambda: btn_hello_click(e_name))
     btn_hello.pack()
 
+    # 关闭按钮
+    btn_close = tk.Button(window, text='关闭', width=10,
+                          height=1, command=lambda: btn_close_click(window))
+    btn_close.pack()
+
     window.mainloop()
+
+
+def btn_close_click(win):
+    win.destroy()
 
 
 def btn_hello_click(e_name):
