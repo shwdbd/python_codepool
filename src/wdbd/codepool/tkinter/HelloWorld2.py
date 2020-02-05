@@ -22,20 +22,34 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         self.create_widgets()
-        print(self.config())
-        # self['geometry'] = '500x300'
+        # print(self.master.config())
+        self.master.geometry('500x300+500+200')
 
     def create_widgets(self):
-        # 姓名提示框
-        self.l_name = tk.Label(self)
-        self.l_name['text'] = '请输入您的姓名'
-        self.l_name['bg'] = 'green'
-        self.l_name['width'] = 3
-        self.l_name['height'] = 2
-        self.l_name['font'] = ('Arial', 12)
-        # self.l_name = tk.Label(window, text='请输入您的姓名', bg='green',
-        #               font=('Arial', 12), width=30, height=2)
-        self.l_name.pack()
+        # 姓名:
+        self.l_name = tk.Label(self, text='请输入您的姓名：', width=30, height=2)
+        self.l_name.grid(row=1, column=1)
+        self.e_name = tk.Entry(self)
+        self.e_name.grid(row=1, column=2)
+
+        # 按钮
+        self.btn_hello = tk.Button(
+            self, text='打招呼', width=10, height=1, command=self.btn_hello_click)
+        self.btn_hello.grid(row=2, column=1)
+        self.btn_close = tk.Button(
+            self, text='关闭', width=10, height=1, command=self.btn_close_click)
+        self.btn_close.grid(row=2, column=2)
+
+    def btn_hello_click(self):
+        name = self.e_name.get()
+        if name == '':
+            msg.showwarning(title='Hi', message='请输入姓名')
+            self.e_name.focus_set()
+        else:
+            msg.showinfo(title='Hi', message='Hello World，{0}'.format(name))
+
+    def btn_close_click(self):
+        self.master.destroy()
 
 
 def show():
