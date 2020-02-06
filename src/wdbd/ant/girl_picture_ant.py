@@ -274,30 +274,84 @@ def download_multiple_listpage(url, page_from=1, page_end=999, down_dir=CI.DOWN_
     return count_all
 
 
-def show_gui():
-    """
-    图形操作界面
+class Application(tk.Frame):
 
-    e_single_url    单页下载URL地址
-    btn_single_dw   单页下载按钮
-    btn_single_check   单页url检查按钮
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack()
+        self.create_widgets()
+        self.master.title('美女影集爬虫')
+        self.master.geometry('800x300+500+200')
 
-    """
-    window = tk.Tk()
-    window.title('Hello World')
-    window.geometry('500x300')
+    def create_widgets(self):
+        # 影集下载:
+        self.l_title = tk.Label(self, text='影集下载', width=30, height=2)
+        self.l_title.grid(row=1, column=1)
 
-    # 单页下载
-    e_single_url = tk.Entry(window, font=('Arial', 10), width=50)
-    e_single_url.grid(row=1, column=1)
+        # Frame of 单个下载
+        self.l_s_title = tk.Label(self, text='单页面下载：', width=30, height=2)
+        self.l_s_title.grid(row=2, column=1)
+        self.l_s_url = tk.Label(self, text='URL:', width=10, height=2)
+        self.l_s_url.grid(row=3, column=1)
+        url_addr = tk.StringVar(value='https://www.meitulu.com/t/1319/')
+        self.e_s_url = tk.Entry(self, width=50, textvariable=url_addr)
+        self.e_s_url.grid(row=3, column=2)
+        self.btn_s_down = tk.Button(self, text='下载', width=10, height=1, command=self.btn_s_down_click)
+        self.btn_s_down.grid(row=3, column=3)
+        # Frame of 多个下载
+        self.l_m_title = tk.Label(self, text='多页面下载：', width=30, height=2)
+        self.l_m_title.grid(row=5, column=1)
+        self.l_m_url = tk.Label(self, text='URL模板:', width=10, height=2)
+        self.l_m_url.grid(row=6, column=1)
+        url_addr = tk.StringVar(value='https://www.meitulu.com/t/ligui/{0}.html')
+        self.e_m_url = tk.Entry(self, width=50, textvariable=url_addr)
+        self.e_m_url.grid(row=6, column=2)
+        self.l_m_sub = tk.Label(self, text='起始页码:', width=10, height=2)
+        self.l_m_sub.grid(row=7, column=1)
+        self.e_m_start = tk.Entry(self, width=3, textvariable=tk.StringVar(value='1'))
+        self.e_m_start.grid(row=7, column=2)
+        self.e_m_end = tk.Entry(self, width=3, textvariable=tk.StringVar(value='4'))
+        self.e_m_end.grid(row=7, column=3)
+        self.btn_m_down = tk.Button(self, text='下载', width=10, height=1, command=self.btn_m_down_click)
+        self.btn_m_down.grid(row=8, column=2)
+
+    def btn_s_down_click(self):
+        """
+        单个页面下载
+        """
+        url_str = self.e_s_url.get()
+        if url_str == '':
+            tk_msg.showwarning(title='Hi', message='请输入URL地址')
+            self.e_s_url.focus_set()
+        else:
+            r = download_single_listpage(url_str)
+            tk_msg.showwarning(title='下载完成', message='{0}个影集下载完成({1})'.format(r, CI.DOWN_DIR))
+
+    def btn_m_down_click(self):
+        """
+        单个页面下载
+        """
+        url_str = self.e_m_url.get()
+        start = int(self.e_m_start.get())
+        end = int(self.e_m_end.get())
+        if url_str == '':
+            tk_msg.showwarning(title='Hi', message='请输入URL地址')
+            self.e_m_url.focus_set()
+        else:
+            r = download_multiple_listpage(url_str, start, page_end=end)
+            tk_msg.showwarning(title='下载完成', message='{0}个影集下载完成({1})'.format(r, CI.DOWN_DIR))
 
 
-    window.mainloop()
+def show():
+    root = tk.Tk()
+    app = Application(master=root)
+    app.mainloop()
 
 
 if __name__ == "__main__":
 
-    show_gui()
+    show()
 
     # url = 'https://www.meitulu.com/t/beautyleg/'  # https://www.meitulu.com/t/beautyleg/2.html
     # url = 'https://www.meitulu.com/t/luvian/'

@@ -10,7 +10,8 @@
 '''
 
 # 默认下载文件夹：
-DOWN_DIR = r'c:\temp\girls\\'
+# DOWN_DIR = r'c:\temp\girls\\'
+DOWN_DIR = r'temp_files\girls\\'
 
 # 图片url格式
 PIC_URL = 'https://mtl.gzhuibei.com/images/img/{girl_id}/{pic_id}.jpg'
