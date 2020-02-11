@@ -30,6 +30,6 @@ def get_conn_engine():
         user_password=user_password,
         server_port=server_port,
         db_name=db_name)
-    engine = create_engine(conn_str, echo=True)
-    # engine = create_engine(conn_str)
+    # engine = create_engine(conn_str, echo=True)
+    engine = create_engine(conn_str)
     return engine
