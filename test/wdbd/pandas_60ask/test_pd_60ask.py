@@ -12,7 +12,7 @@ import unittest
 import pandas as pd
 import numpy as np
 from pandas.util.testing import assert_frame_equal
-import wdbd.pandas_60ask.pd_60ask as impl
+import src.wdbd.pandas_60ask.pd_60ask as impl
 
 
 class Test_qz_4(unittest.TestCase):
