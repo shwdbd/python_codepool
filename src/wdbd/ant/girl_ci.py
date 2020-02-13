@@ -10,7 +10,7 @@
 '''
 
 # 默认下载文件夹：
-# DOWN_DIR = r'c:\temp\girls\\'
+# DOWN_DIR = r'c:\temp\girls\\心妍小公主(李妍曦)\\'
 DOWN_DIR = r'temp_files\girls\\'
 
 # 图片url格式
@@ -22,3 +22,4 @@ TEMP_HTML = r'temp_files\girls.html'
 
 # 是否真正下载照片文件，测试用
 DOWN_PIC = False
+# DOWN_PIC = True

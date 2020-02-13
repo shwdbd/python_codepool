@@ -22,7 +22,15 @@
 2. download_single_listpage     下载单个列表页面的所有影集
 3. download_multiple_listpage   下载多页的所有影集
 4. show_gui     GUI显示程序
+5. download_single          下载单个影集
+view-source:https://www.meitulu.com/item/7496.html
 
+https://mtl.gzhuibei.com/images/img/7496/1.jpg
+
+辅助函数：
+1. _parse_single_page 解析单一影集的内容
+2. _parse_url_to_json 解析影集列表页面，形成含girls信息的json文件
+3. _get_html_file   下载url内容为html文件
 
 '''
 import urllib.request
@@ -60,6 +68,76 @@ class GirlPage:
         return pic_urls
 
 
+def download_single(url, down_dir=CI.DOWN_DIR):
+    """下载单个影集
+    
+    Arguments:
+        url {[type]} -- [description]
+    
+    Keyword Arguments:
+        down_dir {[type]} -- [description] (default: {CI.DOWN_DIR})
+    """
+    # 解析：
+    girl = _parse_single_page(url)
+    if not girl:
+        log.error('影集地址解析失败！ {0}'.format(url))
+    down_dir += down_dir + girl.name + '\\'
+    log.info('存放目录：{0}'.format(down_dir))
+
+    try:
+        if not os.path.exists(down_dir):
+            os.makedirs(down_dir)
+            log.info('新建文件夹: ' + down_dir)
+
+        success = 0     # 成功下载的照片
+        for pic_url in girl.get_pic_urls():
+            pic_file_name = down_dir + '\\' + pic_url[pic_url.rfind('/')+1:]
+            r = download_img(pic_url, pic_file_name)
+            if r != 'failed':
+                success += 1
+
+        if os.path.exists(CI.TEMP_HTML):
+            os.remove(CI.TEMP_HTML)
+
+        log.info('下载完毕，{0} / {1}'.format(success, girl.count))
+        return success
+    except Exception as err:
+        log.error('下载失败，{0}'.format(str(err)))
+        return 0
+
+
+
+
+def _parse_single_page(url):
+    """解析单个影集url称GirlPage
+    Arguments:
+        url {[type]} -- [description]
+    """
+    html_file = _get_html_file(url)
+
+    if not html_file:
+        log.error('下载 影集列表页面 失败！ ' + url)
+        return None
+    else:
+        with open(html_file, mode='r', encoding='utf-8') as f:
+            html_str = f.read()
+            soup = BeautifulSoup(html_str, 'lxml')
+            # print(soup.prettify())
+
+            # 解析内容：
+            girl_id = url[url.rfind('/')+1: url.rfind('.')]
+            # 名称：
+            name = soup.select_one('h1').text.strip()   # [YOUWU尤物馆] VOL.004 木木hanna - 性感蕾丝内衣写真
+            # 照片张数
+            count_str = soup.select_one('.c_l').select('p')
+            count_str = count_str[2].text.strip()
+            count_str = count_str[count_str.find('：')+1: count_str.find('张')].strip() # 52
+
+            girl = GirlPage(url=None, girl_id=girl_id, name=name, count=int(count_str))
+
+            return girl
+
+
 def download_img(img_url, pic_file_path):
     """
     下载照片到本地
@@ -86,6 +164,22 @@ def download_img(img_url, pic_file_path):
         return "failed"
 
 
+def _get_html_file(url, html_file=CI.TEMP_HTML):
+    # 下载url内容为html文件
+    try:
+        request = urllib.request.Request(url)
+        response = urllib.request.urlopen(request)
+        if (response.getcode() == 200):
+            with open(html_file, "w", encoding='utf-8') as f:
+                soup = BeautifulSoup(response.read(), 'lxml')
+                f.write(soup.prettify())     
+        log.debug('解析页面: %s', url)
+        return html_file
+    except Exception as err:
+        log.error('下载HTML时出现问题，{0}'.format(str(err)))
+        return None
+
+
 def _parse_url_to_json(url):
     """
     解析影集列表页面，形成含girls信息的json文件
@@ -96,37 +190,27 @@ def _parse_url_to_json(url):
         [str]: 生成的json文件地址
     """
 
-    # 下载url内容为html文件
-    html_file = CI.TEMP_HTML
-    try:
-        request = urllib.request.Request(url)
-        response = urllib.request.urlopen(request)
-        if (response.getcode() == 200):
-            with open(html_file, "w", encoding='utf-8') as f:
-                soup = BeautifulSoup(response.read(), 'lxml')
-                f.write(soup.prettify())
-            # print('生成html文件 ... ')
-        log.debug('解析页面: %s', url)
-    except Exception as err:
-        log.error('解析影集时出现问题，{0}'.format(str(err)))
-        return None
+    html_file = _get_html_file(url, html_file=CI.TEMP_HTML)
 
-    # 解析html文件，写入json文件
-    girls = _parse_list_html(html_file)
-    # 将对象写入文件， json
-    dict_girls = {}
-    for g in girls:
-        g_dict = {}
-        g_dict['id'] = g.girl_id
-        g_dict['name'] = g.name
-        g_dict['count'] = g.count
-        g_dict['pics'] = g.get_pic_urls()
-        dict_girls[g.girl_id] = g_dict
-    log.debug('解析得到{0}个影集'.format(len(dict_girls)))
-    with open(CI.TEMP_JSON, mode='w', encoding='utf-8') as f:
-        json.dump(dict_girls, f, ensure_ascii=False, indent=4)
-    log.debug('生成json文件 {0}'.format(CI.TEMP_JSON))
-    return CI.TEMP_JSON
+    if not html_file:
+        log.error('下载 影集列表页面 失败！ ' + url)
+    else:
+        # 解析html文件，写入json文件
+        girls = _parse_list_html(html_file)
+        # 将对象写入文件， json
+        dict_girls = {}
+        for g in girls:
+            g_dict = {}
+            g_dict['id'] = g.girl_id
+            g_dict['name'] = g.name
+            g_dict['count'] = g.count
+            g_dict['pics'] = g.get_pic_urls()
+            dict_girls[g.girl_id] = g_dict
+        log.debug('解析得到{0}个影集'.format(len(dict_girls)))
+        with open(CI.TEMP_JSON, mode='w', encoding='utf-8') as f:
+            json.dump(dict_girls, f, ensure_ascii=False, indent=4)
+        log.debug('生成json文件 {0}'.format(CI.TEMP_JSON))
+        return CI.TEMP_JSON
 
 
 def _parse_list_html(file):
@@ -351,23 +435,8 @@ def show():
 
 if __name__ == "__main__":
 
-    show()
-
-    # url = 'https://www.meitulu.com/t/beautyleg/'  # https://www.meitulu.com/t/beautyleg/2.html
-    # url = 'https://www.meitulu.com/t/luvian/'
-
-    # url = 'https://www.meitulu.com/t/1319/'
-    # url = 'https://www.meitulu.com/t/yiyang-elly/'
-    # url = 'https://www.meitulu.com/t/beautyleg/23.html'
-
-    # url = 'https://www.meitulu.com/t/1386/'     # 共5个
-    # down_dir = r'temp_files\girl\\'
-    # r = download_single_listpage(url, down_dir)
-    # print(r)
-
-    # print(len(os.listdir(r'temp_files\girl')))
-
-    # url = r'https://www.meitulu.com/t/ligui/{0}.html'
-    # r = download_multiple_listpage(
-    #     url, page_from=1, page_end=2, down_dir=r'temp_files\\girl\\'+'丽柜')
-    # print(r)
+    url = 'https://www.meitulu.com/item/7496.html'
+    # g = _parse_single_page(url)
+    # print(g)
+    s = download_single(url)
+    print(s)
