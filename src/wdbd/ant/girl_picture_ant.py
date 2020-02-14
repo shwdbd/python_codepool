@@ -23,9 +23,6 @@
 3. download_multiple_listpage   下载多页的所有影集
 4. show_gui     GUI显示程序
 5. download_single          下载单个影集
-view-source:https://www.meitulu.com/item/7496.html
-
-https://mtl.gzhuibei.com/images/img/7496/1.jpg
 
 辅助函数：
 1. _parse_single_page 解析单一影集的内容
@@ -62,7 +59,7 @@ class GirlPage:
         返回所有照片的地址
         """
         pic_urls = []
-        for i in range(1, int(self.count)):
+        for i in range(1, int(self.count)+1):
             url = CI.PIC_URL.format(girl_id=self.girl_id, pic_id=i)
             pic_urls.append(url)
         return pic_urls
@@ -70,18 +67,20 @@ class GirlPage:
 
 def download_single(url, down_dir=CI.DOWN_DIR):
     """下载单个影集
-    
+
     Arguments:
         url {[type]} -- [description]
-    
+
     Keyword Arguments:
         down_dir {[type]} -- [description] (default: {CI.DOWN_DIR})
+
+    Return: 成功下载照片数量
     """
     # 解析：
     girl = _parse_single_page(url)
     if not girl:
         log.error('影集地址解析失败！ {0}'.format(url))
-    down_dir += down_dir + girl.name + '\\'
+    down_dir = down_dir + girl.name + '\\'
     log.info('存放目录：{0}'.format(down_dir))
 
     try:
@@ -106,8 +105,6 @@ def download_single(url, down_dir=CI.DOWN_DIR):
         return 0
 
 
-
-
 def _parse_single_page(url):
     """解析单个影集url称GirlPage
     Arguments:
@@ -125,7 +122,7 @@ def _parse_single_page(url):
             # print(soup.prettify())
 
             # 解析内容：
-            girl_id = url[url.rfind('/')+1: url.rfind('.')]
+            girl_id = _get_girlid_from_url(url)
             # 名称：
             name = soup.select_one('h1').text.strip()   # [YOUWU尤物馆] VOL.004 木木hanna - 性感蕾丝内衣写真
             # 照片张数
@@ -231,7 +228,7 @@ def _parse_list_html(file):
     for idx, li in enumerate(lis):
         # print('--{0}----------------'.format(idx))
         page_link = li.find('a')['href']
-        girl_id = page_link[page_link.rfind('/')+1: page_link.rfind('.')]
+        girl_id = _get_girlid_from_url(page_link)
         # print('girl_id = {0}'.format(girl_id))
         # print('page_link = {0}'.format(page_link))
         # [Beautyleg] No.1771 腿模Shacy - 黑丝美腿+无丝高跟写真[53]
@@ -250,6 +247,11 @@ def _parse_list_html(file):
     return girls_on_page
 
 
+def _get_girlid_from_url(url):
+    # 从url中找到美女id
+    return url[url.rfind('/')+1: url.rfind('.')]
+
+
 def download_single_listpage(list_page_url, down_dir=CI.DOWN_DIR):
     """下载单个列表页面
 
@@ -265,6 +267,8 @@ def download_single_listpage(list_page_url, down_dir=CI.DOWN_DIR):
         [int] -- 成功下载的影集数量
     """
     log.info('下载列表 {0}'.format(list_page_url))
+    girl_id = _get_girlid_from_url(list_page_url)
+    down_dir = down_dir + girl_id + '\\'
     log.info('存放目录：{0}'.format(down_dir))
 
     try:
@@ -435,7 +439,7 @@ def show():
 
 if __name__ == "__main__":
 
-    url = 'https://www.meitulu.com/item/7496.html'
+    url = 'https://www.meitulu.com/item/15267.html'
     # g = _parse_single_page(url)
     # print(g)
     s = download_single(url)

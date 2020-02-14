@@ -10,11 +10,14 @@
 '''
 import unittest
 import src.wdbd.ant.girl_picture_ant as girl_ant
+import src.wdbd.ant.girl_ci as ci
 import os
 import shutil
 
 
 class Test_Download_SingleListPage(unittest.TestCase):
+    """测试 下载单个列表页面
+    """
 
     url = 'https://www.meitulu.com/t/1386/'     # 共5个
     down_dir = r'temp_files\girl\\'
@@ -49,3 +52,25 @@ class Test_Download_SingleListPage(unittest.TestCase):
         # 测试，url不存在的情况
         r = girl_ant.download_single_listpage(err_url, self.down_dir)
         self.assertEqual(0, r)
+
+
+class Test_Download_SinglePage(unittest.TestCase):
+    """测试下载单个影集
+    """
+
+    down_dir = ci.DOWN_DIR
+
+    def tearDown(self):
+        if os.path.exists(self.down_dir):
+            shutil.rmtree(self.down_dir)
+        return super().tearDown()
+
+    def test_download_single(self):
+        """测试 单个页面下载
+        """
+        url = 'https://www.meitulu.com/item/15267.html'
+        name = '[YOUWU尤物馆] VOL.099 木木hanna - 性感黑丝吊袜写真'
+        r = girl_ant.download_single(url)
+        self.assertEqual(38, r)     # 下载文件数
+        dw_dir = ci.DOWN_DIR + name + '\\'
+        self.assertTrue(os.path.exists(dw_dir))     # 生成的文件夹
