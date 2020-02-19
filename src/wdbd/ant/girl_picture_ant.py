@@ -128,7 +128,7 @@ def _parse_single_page(url):
             # 照片张数
             count_str = soup.select_one('.c_l').select('p')
             count_str = count_str[2].text.strip()
-            count_str = count_str[count_str.find('：')+1: count_str.find('张')].strip() # 52
+            count_str = count_str[count_str.find('：')+1: count_str.find('张')].strip()     # 52
 
             girl = GirlPage(url=None, girl_id=girl_id, name=name, count=int(count_str))
 
@@ -169,7 +169,7 @@ def _get_html_file(url, html_file=CI.TEMP_HTML):
         if (response.getcode() == 200):
             with open(html_file, "w", encoding='utf-8') as f:
                 soup = BeautifulSoup(response.read(), 'lxml')
-                f.write(soup.prettify())     
+                f.write(soup.prettify())
         log.debug('解析页面: %s', url)
         return html_file
     except Exception as err:
@@ -439,8 +439,14 @@ def show():
 
 if __name__ == "__main__":
 
-    url = 'https://www.meitulu.com/item/15267.html'
-    # g = _parse_single_page(url)
-    # print(g)
-    s = download_single(url)
-    print(s)
+    # url = 'https://www.meitulu.com/item/15267.html'
+    # # g = _parse_single_page(url)
+    # # print(g)
+    # s = download_single(url)
+    # print(s)
+
+    url = 'https://www.meitulu.com/t/beautyleg/3.html'
+    download_single_listpage(url)
+
+    # url = 'https://www.meitulu.com/t/beautyleg/{0}.html'
+    # download_multiple_listpage(url, page_from=3, page_end=24, down_dir=CI.DOWN_DIR)

@@ -10,8 +10,8 @@
 '''
 
 # 默认下载文件夹：
-# DOWN_DIR = r'c:\temp\girls\\'
-DOWN_DIR = r'temp_files\girls\\'
+DOWN_DIR = r'c:\temp\girls\\bl\\'
+# DOWN_DIR = r'temp_files\girls\\'
 
 # 图片url格式
 PIC_URL = 'https://mtl.gzhuibei.com/images/img/{girl_id}/{pic_id}.jpg'
@@ -21,5 +21,5 @@ TEMP_JSON = r'temp_files\girls.json'
 TEMP_HTML = r'temp_files\girls.html'
 
 # 是否真正下载照片文件，测试用
-DOWN_PIC = False
-# DOWN_PIC = True
+# DOWN_PIC = False
+DOWN_PIC = True
