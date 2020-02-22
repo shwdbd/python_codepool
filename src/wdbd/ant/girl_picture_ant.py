@@ -38,6 +38,7 @@ from wdbd.ant.tl import log
 import wdbd.ant.girl_ci as CI
 import tkinter as tk
 import tkinter.messagebox as tk_msg
+import socket
 
 
 class GirlPage:
@@ -148,6 +149,9 @@ def download_img(img_url, pic_file_path):
     """
     # header = {"Authorization": "Bearer " + api_token} # 设置http header
     # request = urllib.request.Request(img_url, headers=header)
+    if os.path.exists(pic_file_path):
+        return 'success'
+
     try:
         request = urllib.request.Request(img_url)
         response = urllib.request.urlopen(request)
@@ -304,29 +308,33 @@ def _download_picset(json_file, down_dir=r'c:\temp\girls\\'):
     count_all = len(load_dict)  # 总下载影集数量
     picset_id = 1
     for girl_id in load_dict.keys():
-        # print(len(load_dict[girl_id]['pics']))
-        log.info('【{0}/{1}】下载 {2}  ...'.format(picset_id,
-                                               count_all, load_dict[girl_id]['name'].strip()))
-        girl_dir = down_dir + load_dict[girl_id]['name'].strip()
-        # 创建目录:
-        if not os.path.exists(girl_dir):
-            os.makedirs(girl_dir)
-            log.debug('创建目录: ' + girl_dir)
-        # 下载照片
-        success_pics = 0
-        for pic_url in load_dict[girl_id]['pics']:
-            pic_file_name = girl_dir + '\\' + pic_url[pic_url.rfind('/')+1:]
-            # print(pic_file_name)
-            if CI.DOWN_PIC:
-                r = download_img(pic_url, pic_file_name)
-                if r != 'failed':
-                    success_pics = success_pics+1
-            else:
-                # 测试用，不真正下载
-                pass
-        log.info('共下载{0}个照片, 其中成功{1}'.format(
-            len(load_dict[girl_id]['pics']), success_pics))
-        picset_id += 1
+        try:
+            # print(len(load_dict[girl_id]['pics']))
+            log.info('【{0}/{1}】下载 {2}  ...'.format(picset_id,
+                                                count_all, load_dict[girl_id]['name'].strip()))
+            girl_dir = down_dir + load_dict[girl_id]['name'].strip()
+            # 创建目录:
+            if not os.path.exists(girl_dir):
+                os.makedirs(girl_dir)
+                log.debug('创建目录: ' + girl_dir)
+            # 下载照片
+            success_pics = 0
+            for pic_url in load_dict[girl_id]['pics']:
+                pic_file_name = girl_dir + '\\' + pic_url[pic_url.rfind('/')+1:]
+                # print(pic_file_name)
+                if CI.DOWN_PIC:
+                    r = download_img(pic_url, pic_file_name)
+                    if r != 'failed':
+                        success_pics = success_pics+1
+                else:
+                    # 测试用，不真正下载
+                    pass
+            log.info('共下载{0}个照片, 其中成功{1}'.format(
+                len(load_dict[girl_id]['pics']), success_pics))
+            picset_id += 1
+        except Exception as err:
+            log.error('下载失败，{0}'.format(str(err)))
+        
     return picset_id-1
 
 
@@ -438,6 +446,7 @@ def show():
 
 
 if __name__ == "__main__":
+    socket.setdefaulttimeout(10)
 
     # url = 'https://www.meitulu.com/item/15267.html'
     # # g = _parse_single_page(url)
@@ -445,8 +454,11 @@ if __name__ == "__main__":
     # s = download_single(url)
     # print(s)
 
-    url = 'https://www.meitulu.com/t/beautyleg/3.html'
-    download_single_listpage(url)
+    # url = 'https://www.meitulu.com/t/beautyleg/3.html'
+    # download_single_listpage(url)
 
-    # url = 'https://www.meitulu.com/t/beautyleg/{0}.html'
-    # download_multiple_listpage(url, page_from=3, page_end=24, down_dir=CI.DOWN_DIR)
+    # url = 'https://www.meitulu.com/t/xiuren/{0}.html'
+    # download_multiple_listpage(url, page_from=1, page_end=28, down_dir=CI.DOWN_DIR)
+
+    url = 'https://www.meitulu.com/t/ningmengc-lemon/{0}.html'
+    download_multiple_listpage(url, page_from=1, page_end=2, down_dir=CI.DOWN_DIR+'妲己_Toxic\\')

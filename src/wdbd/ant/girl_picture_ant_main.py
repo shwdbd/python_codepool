@@ -9,7 +9,9 @@
 @Desc    :   美女图片下载启动程序
 '''
 import wdbd.ant.girl_picture_ant as ant
+import socket
 
 
 if __name__ == "__main__":
+    socket.setdefaulttimeout(10)
     ant.show()
