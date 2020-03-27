@@ -18,7 +18,6 @@
 '''
 import threading
 import time
-import os
 
 CONFIG_FILE = r'src\wdbd\codepool\threads\server.txt'
 

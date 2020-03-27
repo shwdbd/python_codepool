@@ -12,6 +12,7 @@
 
 '''
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 def get_conn_engine():
@@ -33,3 +34,12 @@ def get_conn_engine():
     # engine = create_engine(conn_str, echo=True)
     engine = create_engine(conn_str)
     return engine
+
+
+if __name__ == "__main__":
+    engine = get_conn_engine()
+    SessionFactory = sessionmaker(get_conn_engine())
+    db_session = SessionFactory()
+    # db_session.execute("delete from employee")
+    db_session.execute("drop table employee")
+    db_session.close()

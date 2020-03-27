@@ -166,7 +166,7 @@ if __name__ == "__main__":
     # dirty数据无Demo
 
     mgr = EmployeeManager()
-    # mgr.create_db_structor()
+    mgr.create_db_structor()
     
     # print(Employee.__table__)
 
@@ -189,4 +189,4 @@ if __name__ == "__main__":
     # mgr.query_by_filter_text()
     # mgr.query_count()
     # mgr.query_group_count()
-    mgr.query_count_star()
+    # mgr.query_count_star()
