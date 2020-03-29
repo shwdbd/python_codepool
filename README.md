@@ -2,6 +2,11 @@
 
 用于本人python代码示例与实验代码的项目
 
+2020-03-29 考虑到国内的网络环境，项目迁移到gitee上。
+
+新的地址：https://gitee.com/shwdbd/python_codepool
+
+
 ## 目录说明
 
 项目中主要文件夹如下：
