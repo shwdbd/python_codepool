@@ -1,9 +1,9 @@
 {
-    "python.pythonPath": "C:\\Python\\venv\\python_codepool\\Scripts\\python.exe",
+    "python.defaultInterpreterPath": "C:\\github\\shwdbd\\python_codepool\\my_venv\\Scripts\\python.exe",
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        ".",
+        "./src/test/python",
         "-p",
         "test_*.py"
     ],
@@ -15,5 +15,37 @@
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
 
-    "python.linting.flake8Args": ["--max-line-length=120"]
+    "python.linting.flake8Args": ["--max-line-length=120"],
+
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME",
+        "tag",
+        "done",
+        "bug", "TEST"
+    ],
+    "todo-tree.highlights.defaultHighlight": {
+        "icon": "alert",
+        "type": "text",
+        "foreground": "red",
+        "background": "yellow",
+        "opacity": 50,
+        "iconColour": "blue"
+    },
+    "todo-tree.highlights.customHighlight": {
+        "FIXME": {
+            "foreground": "white",
+            "background": "red",
+            "iconColour": "white",
+            "gutterIcon": true,
+            "opacity": 50,
+        },
+        "TEST": {
+            "foreground": "yellow",
+            "background": "grey",
+            "iconColour": "red",
+            "gutterIcon": true,
+            "opacity": 50,
+        }
+    }
 }
