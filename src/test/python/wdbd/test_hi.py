@@ -1,12 +1,12 @@
-import wdbd.hi as hi
+import wdbd.codepool.hi as hello
 import unittest
 
 
 class TestHi(unittest.TestCase):
 
     def test_hi(self):
-        hi.hello()
+        hello.hello()
 
 
 if __name__ == "__main__":
-    hi.hello()
+    hello.hello()
